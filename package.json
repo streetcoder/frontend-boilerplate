@@ -1,0 +1,38 @@
+{
+  "name": "frontend-boilerplate",
+  "version": "1.0.0",
+  "description": "Frontend Boilerplate is a starter html5 template development environment based on HTML5 Boilerplate, gulp, Bower, compass and Bootstrap Sass, that will accelerate the frontend development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/streetcoder/frontend-boilerplate.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "compass"
+  ],
+  "author": "streetcoder",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.12.0",
+    "npm": ">=2.1.5"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.9.3",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.1",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-flatten": "^0.2.0",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-uglify": "^1.4.1",
+    "gulp-watch": "^4.3.5",
+    "run-sequence": "^1.1.2"
+  }
+}
