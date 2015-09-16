@@ -76,8 +76,11 @@ gulp.task('jshint', function() {
 // jquery.js, modernizr.js, bootstrap.js
 gulp.task('scripts', ['jshint'],function()
 {
-    return gulp.src(['src/scripts/main.js'])
+    return gulp.src(['src/scripts/**/*.js'])
+        .pipe(sourcemaps.init())
+        .pipe(concat("main.js"))
         .pipe(uglify())
+        .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest('dist/scripts'));
 });
 
