@@ -20,15 +20,15 @@ var path            = require('path');
 
 // ## tasks
 
-// dependency stylesheet i.e. bootstrap compile from bower_component
-// and copy it to dist directory with source map
-gulp.task('depsStyles', function()
+// it's optional, if you want to use sass instead of compass
+// so replace 'compass' to 'sass' in 'default' task and 'watch'
+gulp.task('sass', function()
 {
-    gulp.src('src/app/*.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass({outputStyle: 'compressed'}))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('dist/styles'));
+   return gulp.src('src/sass/style.scss')
+       .pipe(sourcemaps.init())
+       .pipe(sass({outputStyle: 'compressed'}))
+       .pipe(sourcemaps.write('./'))
+       .pipe(gulp.dest('dist/styles'));
 });
 
 // minify dependency scripts and copy to scripts directory
@@ -41,27 +41,24 @@ gulp.task('depsScripts',function()
         .pipe(gulp.dest('dist/scripts'));
 });
 
-gulp.task('dependency', ['depsStyles','depsScripts']);
+gulp.task('dependency', ['depsScripts']);
 
-// it compiles all scss files for development,
-// create source maps
-// minified and transferred to dist
-// plumber used to catch error
-gulp.task('styles', function() {
-    gulp.src('src/sass/*.scss')
+// all scss files should be imported into main.scss file
+// bootstrap style is included into main.scss from bower component
+// gulp-compass minify main.scss file and copy it into dist directory with source map
+gulp.task('compass', function() {
+    gulp.src('src/sass/main.scss')
         .pipe(plumber({
             errorHandler: function (error) {
                 console.log(error.message);
                 this.emit('end');
             }}))
         .pipe(compass({
+            style: 'compressed',
+            sourcemap: true,
             css: 'dist/styles',
             sass: 'src/sass'
         }))
-        .pipe(sourcemaps.init())
-        .pipe(minifyCss())
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('dist/styles'))
         .pipe(browserSync.stream());
 });
 
@@ -102,6 +99,7 @@ gulp.task('fonts', function() {
         .pipe(browserSync.stream());
 });
 
+// any update of scripts, stylesheet, fonts or images
 gulp.task('watch', function()
 {
     browserSync.init({
@@ -110,13 +108,14 @@ gulp.task('watch', function()
         }
     });
 
-    gulp.watch('src/sass/**/*.scss', ['styles']);
-    gulp.watch('src/scripts/*.js', ['scripts']);
+    gulp.watch('src/sass/**/*.scss', ['compass']);
+    gulp.watch('src/scripts/**/*.js', ['scripts']);
     gulp.watch('src/images/**/*', ['images']);
     gulp.watch('src/fonts/**/*', ['fonts']);
     gulp.watch("./*.html").on('change', browserSync.reload);
 });
 
+// default task run all the tasks
 gulp.task('default', function(callback){
-    runSequence('dependency', 'styles', 'scripts', 'images', 'fonts', callback);
+    runSequence('dependency', 'compass', 'scripts', 'images', 'fonts', callback);
 });
